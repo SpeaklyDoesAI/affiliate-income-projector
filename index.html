@@ -63,7 +63,12 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;gap:14px;font-size:12px;color:#9090a8}
 .ld{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
 .ld.r{border-radius:50%}
-canvas#ch{display:block;width:100%;height:260px}
+canvas.ch{display:block;width:100%;height:260px}
+
+/* Year 2 divider */
+.yr-divider{text-align:center;margin:36px 0 24px;position:relative}
+.yr-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:#2a2a3c}
+.yr-divider span{position:relative;background:#0f0f13;padding:0 20px;font-size:22px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#34d399}
 
 /* Table */
 .tcard{background:#1a1a26;border:1px solid #2a2a3c;border-radius:16px;padding:24px;margin-bottom:22px;overflow-x:auto}
@@ -83,6 +88,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .aftitle{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#333350;margin-bottom:12px}
 .afgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .afi{text-align:center}
+.afgrid .afi:last-child{grid-column:2/3;justify-self:center;width:100%}
 .afv{font-size:17px;font-weight:800;color:#6060a0;margin-bottom:2px}
 .afl{font-size:10px;color:#3a3a58;font-weight:600}
 .afs{font-size:9px;color:#28284a;margin-top:1px}
@@ -101,7 +107,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
   <div class="hdr">
     <div class="badge">Creative Owners Club</div>
     <h1>Affiliate Income Projector</h1>
-    <p>12-month recurring commission forecast — powered by real member data</p>
+    <p>24-month recurring commission forecast — powered by real member data</p>
   </div>
 
   <div class="card">
@@ -169,7 +175,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
   <div class="card">
     <div class="chdr">
       <div>
-        <div class="ctitle">Monthly Commission Earnings</div>
+        <div class="ctitle">Year 1 — Monthly Commission Earnings</div>
         <div class="csub">Stacked bars = income by plan &nbsp;|&nbsp; Line = cumulative Year 1</div>
       </div>
       <div class="leg">
@@ -178,11 +184,11 @@ tr:hover td{background:rgba(255,255,255,.02)}
         <span><span class="ld r" style="background:#34d399"></span>Cumulative</span>
       </div>
     </div>
-    <canvas id="ch"></canvas>
+    <canvas id="ch" class="ch"></canvas>
   </div>
 
   <div class="tcard">
-    <div class="ttitle">Month-by-Month Breakdown</div>
+    <div class="ttitle">Year 1 — Month-by-Month Breakdown</div>
     <table>
       <thead>
         <tr>
@@ -201,9 +207,70 @@ tr:hover td{background:rgba(255,255,255,.02)}
     </table>
   </div>
 
+  <!-- Year 2 -->
+  <div class="yr-divider"><span>Year 2 Projection</span></div>
+
+  <div class="stats">
+    <div class="sc hl">
+      <div class="slbl">Month 24 Monthly Income</div>
+      <div class="sval g" id="s4">—</div>
+      <div class="ssub">recurring / month</div>
+    </div>
+    <div class="sc">
+      <div class="slbl">Year 2 Earnings</div>
+      <div class="sval o" id="s5">—</div>
+      <div class="ssub">months 13–24 commissions</div>
+    </div>
+    <div class="sc">
+      <div class="slbl">Active Members · Month 24</div>
+      <div class="sval w" id="s6">—</div>
+      <div class="ssub" id="s6b">— monthly + — annual</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chdr">
+      <div>
+        <div class="ctitle">Year 2 — Monthly Commission Earnings</div>
+        <div class="csub">Stacked bars = income by plan &nbsp;|&nbsp; Line = cumulative Year 2</div>
+      </div>
+      <div class="leg">
+        <span><span class="ld" style="background:#f59e0b"></span>$25/mo</span>
+        <span><span class="ld" style="background:#818cf8"></span>$200/yr</span>
+        <span><span class="ld r" style="background:#34d399"></span>Cumulative Y2</span>
+      </div>
+    </div>
+    <canvas id="ch2" class="ch"></canvas>
+  </div>
+
+  <div class="tcard">
+    <div class="ttitle">Year 2 — Month-by-Month Breakdown</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Lives</th>
+          <th>New Members</th>
+          <th>Active $25/mo</th>
+          <th>Active $200/yr</th>
+          <th>$25/mo Comm</th>
+          <th>$200/yr Comm</th>
+          <th>Total / Mo</th>
+          <th>Cumulative Y2</th>
+        </tr>
+      </thead>
+      <tbody id="tb2"></tbody>
+    </table>
+  </div>
+
   <div class="afooter">
     <div class="aftitle">Model Assumptions — Derived from Real Member Data (Apr 24 – May 22, 2026)</div>
     <div class="afgrid">
+      <div class="afi">
+        <div class="afv">53%</div>
+        <div class="afl">Trial Conversion Rate</div>
+        <div class="afs">893 of 1,679 trial signups converted</div>
+      </div>
       <div class="afi">
         <div class="afv">12.8%</div>
         <div class="afl">Monthly Churn ($25/mo)</div>
@@ -225,13 +292,14 @@ tr:hover td{background:rgba(255,255,255,.02)}
 </div>
 
 <script>
-var CHR = 0.128;
-var AS  = 0.315;
-var MS  = 0.685;
-var CM  = 5.00;
-var CA  = (200 * 0.20) / 12;
-var WPM = 52 / 12;
-var N   = 12;
+var CONV = 0.53;
+var CHR  = 0.128;
+var AS   = 0.315;
+var MS   = 0.685;
+var CM   = 5.00;
+var CA   = (200 * 0.20) / 12;
+var WPM  = 52 / 12;
+var N    = 24;
 
 var membersPerLive = 10;
 var sessionsPerDay = 1;
@@ -243,7 +311,7 @@ function sessionsPerMonth() {
 
 function calc() {
   var spm = sessionsPerMonth();
-  var newPerMonth = Math.round(membersPerLive * spm);
+  var newPerMonth = Math.round(membersPerLive * CONV * spm);
   var nMon = Math.round(newPerMonth * MS);
   var nAnn = Math.round(newPerMonth * AS);
   var aMon = 0, aAnn = 0, cum = 0, rows = [];
@@ -259,6 +327,11 @@ function calc() {
       newMem: newPerMonth
     });
   }
+  // Attach per-year cumulative (ycum): Y1 rows use cum directly; Y2 rows reset
+  var y1end = rows[11].cum;
+  rows.forEach(function(r, i) {
+    r.ycum = i < 12 ? r.cum : (r.cum - y1end);
+  });
   return rows;
 }
 
@@ -266,26 +339,26 @@ function f$(n) {
   return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
-var canvas = document.getElementById('ch');
-function drawChart(rows) {
-  var rect = canvas.getBoundingClientRect();
+function drawChart(rows, canvasEl, monthOffset) {
+  var rect = canvasEl.getBoundingClientRect();
   var W = Math.round(rect.width || 840);
   var H = 260;
-  canvas.width  = W;
-  canvas.height = H;
-  var ctx = canvas.getContext('2d');
+  canvasEl.width  = W;
+  canvasEl.height = H;
+  var ctx = canvasEl.getContext('2d');
   ctx.clearRect(0, 0, W, H);
 
+  var n = rows.length;
   var pad = {top:16, right:72, bottom:40, left:72};
   var cw = W - pad.left - pad.right;
   var ch = H - pad.top  - pad.bottom;
 
   var maxBar = 0, maxCum = 0;
-  rows.forEach(function(r){ maxBar = Math.max(maxBar, r.tot); maxCum = Math.max(maxCum, r.cum); });
+  rows.forEach(function(r){ maxBar = Math.max(maxBar, r.tot); maxCum = Math.max(maxCum, r.ycum); });
   maxBar = (maxBar * 1.15) || 100;
   maxCum = (maxCum * 1.10) || 100;
 
-  var spacing = cw / N;
+  var spacing = cw / n;
   var bw = spacing * 0.55;
 
   for (var g = 0; g <= 4; g++) {
@@ -317,7 +390,7 @@ function drawChart(rows) {
     ctx.fillStyle = '#5a5a72';
     ctx.font = '10px -apple-system,sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Mo '+(i+1), pad.left + i * spacing + spacing / 2, H - pad.bottom + 14);
+    ctx.fillText('Mo '+(monthOffset + i + 1), pad.left + i * spacing + spacing / 2, H - pad.bottom + 14);
   });
 
   ctx.beginPath();
@@ -326,26 +399,26 @@ function drawChart(rows) {
   ctx.lineJoin = 'round';
   rows.forEach(function(r, i) {
     var x = pad.left + i * spacing + spacing / 2;
-    var y = pad.top + ch - (r.cum / maxCum) * ch;
+    var y = pad.top + ch - (r.ycum / maxCum) * ch;
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   });
   ctx.stroke();
 
   rows.forEach(function(r, i) {
     var x = pad.left + i * spacing + spacing / 2;
-    var y = pad.top + ch - (r.cum / maxCum) * ch;
+    var y = pad.top + ch - (r.ycum / maxCum) * ch;
     ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2);
     ctx.fillStyle = '#34d399'; ctx.fill();
   });
 }
 
-function drawTable(rows) {
-  var tb = document.getElementById('tb');
+function drawTable(rows, tbodyId, monthOffset) {
+  var tb = document.getElementById(tbodyId);
   tb.innerHTML = '';
   rows.forEach(function(r, i) {
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td>Month '+(i+1)+'</td>'+
+      '<td>Month '+(monthOffset + i + 1)+'</td>'+
       '<td>'+r.sessions+'</td>'+
       '<td>+'+r.newMem.toLocaleString()+'</td>'+
       '<td>'+r.aMon.toLocaleString()+'</td>'+
@@ -353,31 +426,44 @@ function drawTable(rows) {
       '<td class="m">'+f$(r.eM)+'</td>'+
       '<td class="a">'+f$(r.eA)+'</td>'+
       '<td class="t">'+f$(r.tot)+'</td>'+
-      '<td class="c">'+f$(r.cum)+'</td>';
+      '<td class="c">'+f$(r.ycum)+'</td>';
     tb.appendChild(tr);
   });
 }
 
 function render() {
   var rows = calc();
-  var last = rows[N - 1];
+  var yr1  = rows.slice(0, 12);
+  var yr2  = rows.slice(12, 24);
+  var r12  = rows[11];
+  var r24  = rows[23];
   var spm  = Math.round(sessionsPerMonth());
-  var npm  = Math.round(membersPerLive * sessionsPerMonth());
+  var npm  = Math.round(membersPerLive * CONV * sessionsPerMonth());
 
   document.getElementById('sumbar').innerHTML =
     '<strong>'+sessionsPerDay+'</strong> live'+(sessionsPerDay>1?'s':'')+'/day &nbsp;&times;&nbsp; '+
     '<strong>'+daysPerWeek+'</strong> day'+(daysPerWeek>1?'s':'')+'/week &nbsp;=&nbsp; '+
     '<strong>~'+spm+'</strong> lives/month &nbsp;&times;&nbsp; '+
-    '<strong>'+membersPerLive+'</strong> members/live &nbsp;=&nbsp; '+
-    '<strong>~'+npm+'</strong> new members/month';
+    '<strong>'+membersPerLive+'</strong> members/live &nbsp;&times;&nbsp; '+
+    '<strong>53%</strong> trial conversion &nbsp;=&nbsp; '+
+    '<strong>~'+npm+'</strong> new paying members/month';
 
-  document.getElementById('s1').textContent  = f$(last.tot);
-  document.getElementById('s2').textContent  = f$(last.cum);
-  document.getElementById('s3').textContent  = (last.aMon + last.aAnn).toLocaleString();
-  document.getElementById('s3b').textContent = last.aMon.toLocaleString()+' monthly + '+last.aAnn.toLocaleString()+' annual';
+  // Year 1 stats
+  document.getElementById('s1').textContent  = f$(r12.tot);
+  document.getElementById('s2').textContent  = f$(r12.cum);
+  document.getElementById('s3').textContent  = (r12.aMon + r12.aAnn).toLocaleString();
+  document.getElementById('s3b').textContent = r12.aMon.toLocaleString()+' monthly + '+r12.aAnn.toLocaleString()+' annual';
 
-  drawChart(rows);
-  drawTable(rows);
+  // Year 2 stats
+  document.getElementById('s4').textContent  = f$(r24.tot);
+  document.getElementById('s5').textContent  = f$(r24.ycum);
+  document.getElementById('s6').textContent  = (r24.aMon + r24.aAnn).toLocaleString();
+  document.getElementById('s6b').textContent = r24.aMon.toLocaleString()+' monthly + '+r24.aAnn.toLocaleString()+' annual';
+
+  drawChart(yr1, document.getElementById('ch'),  0);
+  drawChart(yr2, document.getElementById('ch2'), 12);
+  drawTable(yr1, 'tb',  0);
+  drawTable(yr2, 'tb2', 12);
 }
 
 // Members per live
