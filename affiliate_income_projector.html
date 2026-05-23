@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Affiliate Income Projector — Creative Owners Club</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f13;color:#e8e8f0;min-height:100vh;padding:32px 20px 60px}
+.wrap{max-width:900px;margin:0 auto}
+
+.hdr{text-align:center;margin-bottom:36px}
+.badge{display:inline-block;background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.hdr h1{font-size:28px;font-weight:800;color:#fff;margin-bottom:6px}
+.hdr p{color:#9090a8;font-size:14px}
+
+.card{background:#1a1a26;border:1px solid #2a2a3c;border-radius:16px;padding:28px;margin-bottom:22px}
+
+/* Three-column input grid */
+.inputs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:start}
+@media(max-width:680px){.inputs-grid{grid-template-columns:1fr}}
+
+.ilabel{font-size:11px;font-weight:700;color:#9090a8;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.ivalue{font-size:38px;font-weight:900;color:#f59e0b;line-height:1;margin-bottom:14px;letter-spacing:-1px}
+.ivalue span{font-size:14px;font-weight:500;color:#9090a8;letter-spacing:0}
+
+.srow{display:flex;align-items:center;gap:10px}
+.slim{font-size:11px;color:#5a5a72;min-width:16px}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:#2a2a3c;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#f59e0b;box-shadow:0 0 0 4px rgba(245,158,11,.2);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#f59e0b;border:none;cursor:pointer}
+.ninput{background:#0f0f13;border:1px solid #3a3a52;border-radius:8px;color:#f59e0b;font-size:14px;font-weight:700;padding:7px 8px;width:60px;text-align:center;outline:none}
+.ninput:focus{border-color:#f59e0b}
+
+
+/* Summary bar */
+.summary-bar{
+  background:#12121c;
+  border:1px solid #1e1e2c;
+  border-radius:10px;
+  padding:12px 18px;
+  font-size:13px;
+  color:#6060a0;
+  margin-top:22px;
+  text-align:center;
+  line-height:1.6;
+}
+.summary-bar strong{color:#f59e0b}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.sc{background:#1a1a26;border:1px solid #2a2a3c;border-radius:14px;padding:20px 16px;text-align:center}
+.sc.hl{border-top:2px solid #f59e0b}
+.slbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5a5a72;margin-bottom:8px}
+.sval{font-size:24px;font-weight:800;line-height:1;margin-bottom:4px}
+.sval.g{color:#34d399}.sval.o{color:#f59e0b}.sval.w{color:#fff}
+.ssub{font-size:11px;color:#5a5a72}
+
+/* Chart */
+.chdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.ctitle{font-size:14px;font-weight:700;color:#fff}
+.csub{font-size:11px;color:#5a5a72;margin-top:2px}
+.leg{display:flex;gap:14px;font-size:12px;color:#9090a8}
+.ld{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.ld.r{border-radius:50%}
+canvas#ch{display:block;width:100%;height:260px}
+
+/* Table */
+.tcard{background:#1a1a26;border:1px solid #2a2a3c;border-radius:16px;padding:24px;margin-bottom:22px;overflow-x:auto}
+.ttitle{font-size:14px;font-weight:700;color:#fff;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}
+th{text-align:right;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5a5a72;padding:0 8px 10px;border-bottom:1px solid #2a2a3c}
+th:first-child{text-align:left}
+td{text-align:right;padding:8px 8px;border-bottom:1px solid #1a1a26;color:#b0b0c8}
+td:first-child{text-align:left;color:#6060a0;font-weight:700}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.m{color:#f59e0b!important;font-weight:700}.a{color:#818cf8!important;font-weight:700}
+.t{color:#fff!important;font-weight:800}.c{color:#34d399!important;font-weight:700}
+
+/* Footer */
+.afooter{background:#12121c;border:1px solid #1e1e2c;border-radius:12px;padding:18px 22px}
+.aftitle{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#333350;margin-bottom:12px}
+.afgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.afi{text-align:center}
+.afv{font-size:17px;font-weight:800;color:#6060a0;margin-bottom:2px}
+.afl{font-size:10px;color:#3a3a58;font-weight:600}
+.afs{font-size:9px;color:#28284a;margin-top:1px}
+
+@media(max-width:580px){
+  .stats{grid-template-columns:1fr 1fr}
+  .afgrid{grid-template-columns:1fr 1fr}
+  .hdr h1{font-size:22px}
+  .ivalue{font-size:30px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="badge">Creative Owners Club</div>
+    <h1>Affiliate Income Projector</h1>
+    <p>12-month recurring commission forecast — powered by real member data</p>
+  </div>
+
+  <div class="card">
+    <div class="inputs-grid">
+
+      <!-- Members per live -->
+      <div>
+        <div class="ilabel">Members Per Live</div>
+        <div class="ivalue" id="disp-mpl">10 <span>/ session</span></div>
+        <div class="srow">
+          <span class="slim">1</span>
+          <input type="range" id="sl-mpl" min="1" max="200" value="10">
+          <span class="slim">200</span>
+          <input type="number" id="ni-mpl" class="ninput" min="1" max="9999" value="10">
+        </div>
+      </div>
+
+      <!-- Lives per day -->
+      <div>
+        <div class="ilabel">Lives Per Day</div>
+        <div class="ivalue" id="disp-spd">1 <span>/ day</span></div>
+        <div class="srow">
+          <span class="slim">1</span>
+          <input type="range" id="sl-spd" min="1" max="10" value="1">
+          <span class="slim">10</span>
+          <input type="number" id="ni-spd" class="ninput" min="1" max="99" value="1">
+        </div>
+      </div>
+
+      <!-- Days per week -->
+      <div>
+        <div class="ilabel">Days Per Week</div>
+        <div class="ivalue" id="disp-dpw">5 <span>days / week</span></div>
+        <div class="srow">
+          <span class="slim">1</span>
+          <input type="range" id="sl-dpw" min="1" max="7" value="5">
+          <span class="slim">7</span>
+          <input type="number" id="ni-dpw" class="ninput" min="1" max="7" value="5">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="summary-bar" id="sumbar">—</div>
+  </div>
+
+  <div class="stats">
+    <div class="sc hl">
+      <div class="slbl">Month 12 Monthly Income</div>
+      <div class="sval g" id="s1">—</div>
+      <div class="ssub">recurring / month</div>
+    </div>
+    <div class="sc">
+      <div class="slbl">Year 1 Total Earnings</div>
+      <div class="sval o" id="s2">—</div>
+      <div class="ssub">cumulative commissions</div>
+    </div>
+    <div class="sc">
+      <div class="slbl">Active Members · Month 12</div>
+      <div class="sval w" id="s3">—</div>
+      <div class="ssub" id="s3b">— monthly + — annual</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chdr">
+      <div>
+        <div class="ctitle">Monthly Commission Earnings</div>
+        <div class="csub">Stacked bars = income by plan &nbsp;|&nbsp; Line = cumulative Year 1</div>
+      </div>
+      <div class="leg">
+        <span><span class="ld" style="background:#f59e0b"></span>$25/mo</span>
+        <span><span class="ld" style="background:#818cf8"></span>$200/yr</span>
+        <span><span class="ld r" style="background:#34d399"></span>Cumulative</span>
+      </div>
+    </div>
+    <canvas id="ch"></canvas>
+  </div>
+
+  <div class="tcard">
+    <div class="ttitle">Month-by-Month Breakdown</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Lives</th>
+          <th>New Members</th>
+          <th>Active $25/mo</th>
+          <th>Active $200/yr</th>
+          <th>$25/mo Comm</th>
+          <th>$200/yr Comm</th>
+          <th>Total / Mo</th>
+          <th>Cumulative</th>
+        </tr>
+      </thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+
+  <div class="afooter">
+    <div class="aftitle">Model Assumptions — Derived from Real Member Data (Apr 24 – May 22, 2026)</div>
+    <div class="afgrid">
+      <div class="afi">
+        <div class="afv">12.8%</div>
+        <div class="afl">Monthly Churn ($25/mo)</div>
+        <div class="afs">Derived from post-trial cohort attrition data</div>
+      </div>
+      <div class="afi">
+        <div class="afv">31.5%</div>
+        <div class="afl">Choose $200/yr Plan</div>
+        <div class="afs">Consistent across member snapshots</div>
+      </div>
+      <div class="afi">
+        <div class="afv">20%</div>
+        <div class="afl">Affiliate Commission</div>
+        <div class="afs">$5/mo or $3.33/mo (annual smoothed)</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var CHR = 0.128;
+var AS  = 0.315;
+var MS  = 0.685;
+var CM  = 5.00;
+var CA  = (200 * 0.20) / 12;
+var WPM = 52 / 12;
+var N   = 12;
+
+var membersPerLive = 10;
+var sessionsPerDay = 1;
+var daysPerWeek    = 5;
+
+function sessionsPerMonth() {
+  return sessionsPerDay * daysPerWeek * WPM;
+}
+
+function calc() {
+  var spm = sessionsPerMonth();
+  var newPerMonth = Math.round(membersPerLive * spm);
+  var nMon = Math.round(newPerMonth * MS);
+  var nAnn = Math.round(newPerMonth * AS);
+  var aMon = 0, aAnn = 0, cum = 0, rows = [];
+  for (var i = 0; i < N; i++) {
+    aMon = aMon - Math.round(aMon * CHR) + nMon;
+    aAnn = aAnn + nAnn;
+    var eM = aMon * CM, eA = aAnn * CA, tot = eM + eA;
+    cum += tot;
+    rows.push({
+      aMon: aMon, aAnn: aAnn,
+      eM: eM, eA: eA, tot: tot, cum: cum,
+      sessions: Math.round(spm),
+      newMem: newPerMonth
+    });
+  }
+  return rows;
+}
+
+function f$(n) {
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+var canvas = document.getElementById('ch');
+function drawChart(rows) {
+  var rect = canvas.getBoundingClientRect();
+  var W = Math.round(rect.width || 840);
+  var H = 260;
+  canvas.width  = W;
+  canvas.height = H;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+
+  var pad = {top:16, right:72, bottom:40, left:72};
+  var cw = W - pad.left - pad.right;
+  var ch = H - pad.top  - pad.bottom;
+
+  var maxBar = 0, maxCum = 0;
+  rows.forEach(function(r){ maxBar = Math.max(maxBar, r.tot); maxCum = Math.max(maxCum, r.cum); });
+  maxBar = (maxBar * 1.15) || 100;
+  maxCum = (maxCum * 1.10) || 100;
+
+  var spacing = cw / N;
+  var bw = spacing * 0.55;
+
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + ch - (ch * g / 4);
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + cw, gy); ctx.stroke();
+
+    var lv = maxBar * g / 4;
+    ctx.fillStyle = '#5a5a72';
+    ctx.font = '10px -apple-system,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(lv >= 1000 ? '$'+Math.round(lv/1000)+'k' : '$'+Math.round(lv), pad.left - 6, gy + 4);
+
+    var rv = maxCum * g / 4;
+    ctx.fillStyle = '#34d399';
+    ctx.textAlign = 'left';
+    ctx.fillText(rv >= 1000 ? '$'+Math.round(rv/1000)+'k' : '$'+Math.round(rv), pad.left + cw + 6, gy + 4);
+  }
+
+  rows.forEach(function(r, i) {
+    var x  = pad.left + i * spacing + spacing / 2 - bw / 2;
+    var hM = (r.eM / maxBar) * ch;
+    var hA = (r.eA / maxBar) * ch;
+    ctx.fillStyle = 'rgba(245,158,11,0.85)';
+    ctx.fillRect(x, pad.top + ch - hM, bw, hM);
+    ctx.fillStyle = 'rgba(129,140,248,0.85)';
+    ctx.fillRect(x, pad.top + ch - hM - hA, bw, hA);
+    ctx.fillStyle = '#5a5a72';
+    ctx.font = '10px -apple-system,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Mo '+(i+1), pad.left + i * spacing + spacing / 2, H - pad.bottom + 14);
+  });
+
+  ctx.beginPath();
+  ctx.strokeStyle = '#34d399';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  rows.forEach(function(r, i) {
+    var x = pad.left + i * spacing + spacing / 2;
+    var y = pad.top + ch - (r.cum / maxCum) * ch;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  rows.forEach(function(r, i) {
+    var x = pad.left + i * spacing + spacing / 2;
+    var y = pad.top + ch - (r.cum / maxCum) * ch;
+    ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#34d399'; ctx.fill();
+  });
+}
+
+function drawTable(rows) {
+  var tb = document.getElementById('tb');
+  tb.innerHTML = '';
+  rows.forEach(function(r, i) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>Month '+(i+1)+'</td>'+
+      '<td>'+r.sessions+'</td>'+
+      '<td>+'+r.newMem.toLocaleString()+'</td>'+
+      '<td>'+r.aMon.toLocaleString()+'</td>'+
+      '<td>'+r.aAnn.toLocaleString()+'</td>'+
+      '<td class="m">'+f$(r.eM)+'</td>'+
+      '<td class="a">'+f$(r.eA)+'</td>'+
+      '<td class="t">'+f$(r.tot)+'</td>'+
+      '<td class="c">'+f$(r.cum)+'</td>';
+    tb.appendChild(tr);
+  });
+}
+
+function render() {
+  var rows = calc();
+  var last = rows[N - 1];
+  var spm  = Math.round(sessionsPerMonth());
+  var npm  = Math.round(membersPerLive * sessionsPerMonth());
+
+  document.getElementById('sumbar').innerHTML =
+    '<strong>'+sessionsPerDay+'</strong> live'+(sessionsPerDay>1?'s':'')+'/day &nbsp;&times;&nbsp; '+
+    '<strong>'+daysPerWeek+'</strong> day'+(daysPerWeek>1?'s':'')+'/week &nbsp;=&nbsp; '+
+    '<strong>~'+spm+'</strong> lives/month &nbsp;&times;&nbsp; '+
+    '<strong>'+membersPerLive+'</strong> members/live &nbsp;=&nbsp; '+
+    '<strong>~'+npm+'</strong> new members/month';
+
+  document.getElementById('s1').textContent  = f$(last.tot);
+  document.getElementById('s2').textContent  = f$(last.cum);
+  document.getElementById('s3').textContent  = (last.aMon + last.aAnn).toLocaleString();
+  document.getElementById('s3b').textContent = last.aMon.toLocaleString()+' monthly + '+last.aAnn.toLocaleString()+' annual';
+
+  drawChart(rows);
+  drawTable(rows);
+}
+
+// Members per live
+var slMpl = document.getElementById('sl-mpl');
+var niMpl = document.getElementById('ni-mpl');
+var dispMpl = document.getElementById('disp-mpl');
+function setMPL(val) {
+  val = parseInt(val, 10);
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > 9999) val = 9999;
+  membersPerLive = val;
+  slMpl.value = Math.min(val, 200);
+  niMpl.value = val;
+  dispMpl.innerHTML = val.toLocaleString()+' <span>/ Live</span>';
+  render();
+}
+slMpl.addEventListener('input',  function(){ setMPL(slMpl.value); });
+niMpl.addEventListener('input',  function(){ setMPL(niMpl.value); });
+niMpl.addEventListener('change', function(){ setMPL(niMpl.value); });
+
+// Sessions per day
+var slSpd = document.getElementById('sl-spd');
+var niSpd = document.getElementById('ni-spd');
+var dispSpd = document.getElementById('disp-spd');
+function setSPD(val) {
+  val = parseInt(val, 10);
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > 99) val = 99;
+  sessionsPerDay = val;
+  slSpd.value = Math.min(val, 10);
+  niSpd.value = val;
+  dispSpd.innerHTML = val+' <span>/ day</span>';
+  render();
+}
+slSpd.addEventListener('input',  function(){ setSPD(slSpd.value); });
+niSpd.addEventListener('input',  function(){ setSPD(niSpd.value); });
+niSpd.addEventListener('change', function(){ setSPD(niSpd.value); });
+
+// Days per week
+var slDpw = document.getElementById('sl-dpw');
+var niDpw = document.getElementById('ni-dpw');
+var dispDpw = document.getElementById('disp-dpw');
+function setDPW(val) {
+  val = parseInt(val, 10);
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > 7) val = 7;
+  daysPerWeek = val;
+  slDpw.value = val;
+  niDpw.value = val;
+  dispDpw.innerHTML = val+' <span>day'+(val===1?'':'s')+' / week</span>';
+  render();
+}
+slDpw.addEventListener('input',  function(){ setDPW(slDpw.value); });
+niDpw.addEventListener('input',  function(){ setDPW(niDpw.value); });
+niDpw.addEventListener('change', function(){ setDPW(niDpw.value); });
+
+window.addEventListener('resize', function(){ render(); });
+
+// Init
+setDPW(5);
+setMPL(10);
+</script>
+</body>
+</html>
